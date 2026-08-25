@@ -1,0 +1,64 @@
+services:
+  - type: web
+    name: vaigo-route-node
+    runtime: python
+    plan: free
+    buildCommand: python -m pip install --upgrade pip && python -m pip install -r requirements.txt && python validate.py && python -c "import app; print('VAIGO NODE V4 IMPORT OK')"
+    startCommand: python -m gunicorn app:app -c gunicorn.conf.py
+    healthCheckPath: /livez
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.7
+      - key: VAIGO_NODE_ID
+        value: "01"
+      - key: VAIGO_NODE_NAME
+        value: "VAIGO Node 01"
+      - key: VAIGO_NODE_REGION
+        value: "Render"
+      - key: VAIGO_NODE_CAPACITY
+        value: "4"
+      - key: VAIGO_NODE_VERSION
+        value: "node-v4"
+      - key: VAIGO_ROUTE_CACHE_TTL
+        value: "24"
+      - key: VAIGO_PROVIDER_CACHE_TTL
+        value: "8"
+      - key: VAIGO_PROVIDER_TIMEOUT
+        value: "7.5"
+      - key: VAIGO_PROVIDER_CONNECT_TIMEOUT
+        value: "2.2"
+      - key: VAIGO_PROVIDER_MAX_CONCURRENCY
+        value: "8"
+      - key: VAIGO_VARIANT_WORKERS
+        value: "6"
+      - key: VAIGO_MICRO_ROUTE_BUDGET
+        value: "4"
+      - key: VAIGO_MICRO_MIN_ETA_GAIN_SECONDS
+        value: "20"
+      - key: VAIGO_ADAPTIVE_VARIANT_BUDGET
+        value: "2"
+      - key: VAIGO_SAFETY_VARIANT_BUDGET
+        value: "2"
+      - key: VAIGO_CANDIDATE_LIMIT
+        value: "14"
+      - key: VAIGO_MAX_DISPLAY_ROUTES
+        value: "6"
+      - key: VAIGO_ALLOW_DB_CONTEXT
+        value: "1"
+      - key: VAIGO_HEALTH_PUBLIC
+        value: "1"
+      - key: VAIGO_GZIP_MIN_BYTES
+        value: "1800"
+      - key: VAIGO_GZIP_LEVEL
+        value: "3"
+      - key: VAIGO_ACCESS_LOG
+        value: "0"
+      - key: MAPBOX_ACCESS_TOKEN
+        sync: false
+      - key: CENTRAL_API_SECRET
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
